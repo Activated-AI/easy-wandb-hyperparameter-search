@@ -9,7 +9,7 @@ def setup_wandb_sweep():
 
     sweep_config = {
         'method': 'random',  # grid, random, bayes
-        'run_cap': 2,
+        'run_cap': 20,
         'metric': {
             'name': 'loss',
             'goal': 'minimize'   

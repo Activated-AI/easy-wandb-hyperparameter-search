@@ -17,7 +17,7 @@ This repository demonstrates how to use Weights & Biases (WandB) for hyperparame
    python sweep.py
    ```
 
-2. Run a worker to participate in the sweep:
+2. Add an additional worker to participate in a running sweep (`sweep.py` automatically starts a worker on the machine it is run on):
    ```
    python worker.py -s <SWEEP_ID> -p <PROJECT_NAME>
    ```

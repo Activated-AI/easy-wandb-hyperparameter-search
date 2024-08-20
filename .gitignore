@@ -2,3 +2,6 @@ MNIST*
 wandb*
 __pycache__*
 *.pyc
+.lightning_studio*
+*.iml
+*.netrc

@@ -29,22 +29,21 @@ This repository demonstrates how to use Weights & Biases (WandB) for hyperparame
    python sweeplightning.py
    ```
 
-   This will set up the sweep and run multiple workers on Lightning AI's infrastructure.
+   This will set up the sweep and run multiple workers on Lightning AI's infrastructure. By default, it creates 3 worker jobs, each running on a separate A10G machine. You can adjust the number of workers by modifying the `num_workers` variable in the `main()` function of `sweeplightning.py`.
 
-### Lightning AI Workers
+## Lightning AI Configuration
 
-The `sweeplightning.py` script is configured to run multiple workers in parallel on Lightning AI's infrastructure. By default, it's set to run 3 workers, each on an A10G machine. You can adjust the number of workers by modifying the `num_workers` variable in the `main()` function of `sweeplightning.py`:
+The `sweeplightning.py` script uses Lightning AI's Studio and Jobs plugin to distribute the hyperparameter search across multiple machines:
 
-```python
-def main():
-    num_workers = 3  # Adjust this value to change the number of parallel workers
-    sweep_id, projectname = setup_wandb_sweep()
-    run_workers(sweep_id, projectname, num_workers)
-```
+- It creates a Studio instance named "hyperparameter search".
+- It uses the Jobs plugin to spawn multiple worker jobs.
+- Each worker runs on an A10G machine (configurable via the `Machine` enum in the script).
+- The number of concurrent workers is set to 3 by default but can be easily adjusted.
 
-Increasing the number of workers will allow for more parallel exploration of the hyperparameter space, potentially finding optimal configurations faster. However, keep in mind that this will also increase resource usage on the Lightning AI platform.
+To modify the number of machines or machine type:
 
-Each worker runs independently, executing the `worker.py` script with the appropriate sweep ID and project name. The Lightning AI Studio manages these workers, distributing them across the specified machine type (A10G in this case).
+1. Change the `num_workers` variable in the `main()` function to adjust the number of concurrent jobs.
+2. Modify the `Machine` enum value in the `jobs_plugin.run()` call to change the machine type for each worker.
 
 ## Customization
 
@@ -56,7 +55,8 @@ Each worker runs independently, executing the `worker.py` script with the approp
 - Supports both script (`train.py`) and notebook (`train.ipynb`) training methods.
 - Utilizes WandB for experiment tracking and hyperparameter optimization.
 - Implements a simple CNN for MNIST classification.
-- Supports running hyperparameter sweeps on Lightning AI infrastructure with configurable number of parallel workers.
+- Supports running distributed hyperparameter sweeps on Lightning AI infrastructure.
+- Configurable number of concurrent workers and machine types on Lightning AI.
 
 ## Contributing
 

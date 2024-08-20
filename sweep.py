@@ -63,11 +63,7 @@ def run_worker(sweep_id, projectname):
 
 def main():
     sweep_id, projectname = setup_wandb_sweep()
-
-    num_workers = 1
-    for i in range(num_workers):
-        print(f"Starting worker {i+1}/{num_workers}")
-        run_worker(sweep_id, projectname)
+    run_worker(sweep_id, projectname)
 
 if __name__ == "__main__":
     main()
